@@ -1,0 +1,8 @@
+api/.idea/
+api/node_modules/
+api/package-lock.json
+
+
+app/.idea/
+app/node_modules/
+app/package-lock.json
