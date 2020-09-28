@@ -19,7 +19,8 @@ export default class GameView extends Component<GameViewProps, GameViewState>{
 
         this.state = {
             socket: socket,
-            time:"00:00"
+            time:"00:00",
+            cooldown:30
 
         }
 
@@ -42,10 +43,10 @@ export default class GameView extends Component<GameViewProps, GameViewState>{
                     <ul className="dd-board-opponents">
                         {GameView.getOpponents(this.props.game.players, this.state.socket)}
                     </ul>
-                    <GameBoard gameId={this.props.game.id} socket={this.state.socket} />
                     <div className="dd-board-player-widget">
                         <PlayerWidget player={this.props.player} socket={this.state.socket}/>
                     </div>
+                    <GameBoard gameId={this.props.game.id} socket={this.state.socket} />
                 </div>
                 <div className="dd-board-bottom">
                     <Chat socket={this.state.socket} author={this.props.player.name} />
@@ -53,7 +54,8 @@ export default class GameView extends Component<GameViewProps, GameViewState>{
                         <Player player={this.props.player} socket={this.state.socket} />
                     </div>
                     <ul className="dd-board-button">
-                        <button>Play</button>
+                        <p className="dd-board-cooldown">{this.state.cooldown}s</p>
+                        <button>End Turn</button>
                     </ul>
                 </div>
             </div>
@@ -68,5 +70,6 @@ type GameViewProps = {
 
 type GameViewState = {
     time:string,
+    cooldown:number,
     socket : Socket
 }

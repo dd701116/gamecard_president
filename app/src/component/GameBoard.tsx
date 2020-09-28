@@ -19,7 +19,7 @@ export default class GameBoard extends Component<GameBoardProps, GameBoardState>
     render(): React.ReactNode {
 
         return (
-            <ul className="dd-board-card">{this.state.cards.map(card => <li key={card.props.description}>{card}</li>)}</ul>
+            <ul className="dd-board-cards">{this.state.cards.map(card => <li key={card.props.description}>{card}</li>)}</ul>
         );
     }
 }
