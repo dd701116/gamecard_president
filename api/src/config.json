@@ -1,0 +1,21 @@
+{
+  "product":{
+    "mongodb":{
+      "user":"",
+      "passwd":"",
+      "dbname":""
+    },
+    "pokemon_api_url":"",
+    "bcrypt_salt_round":10
+  },
+  "developpement":{
+    "mongodb":{
+      "user":"GiLUPkP1ARJpQKcL",
+      "passwd":"GiLUPkP1ARJpQKcL",
+      "dbname":"developpement"
+    },
+    "pokemon_api_url":"http://localhost:3000",
+    "pokemon_api_version":"v1",
+    "bcrypt_salt_round":10
+  }
+}
