@@ -17,10 +17,6 @@ export default class Rules {
         return {};
     }
 
-    static canPlay(player:Player, jumped:boolean) : boolean{
-        return true && !jumped;
-    }
-
     static isPresident(player : Player, players : Array<Player>) : boolean{
         return true;
     }

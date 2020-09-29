@@ -106,5 +106,20 @@ export default class Game {
 
     }
 
+    static generateId(length = 5) {
+        // function inspired from https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+        let result           = '';
+        let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charactersLength = characters.length;
+        for ( let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return "G-"+result;
+    }
+
+    get Id(){
+        return this.id;
+    }
+
 
 }

@@ -8,10 +8,9 @@ export default class Player {
     private info : PlayerInfo;
     private hands : Array<Card>;
 
-    constructor(info : PlayerInfo, cards : Array<Card>) {
+    constructor(info : PlayerInfo) {
         this.info = info;
         this.hands = new Array<Card>();
-        cards.forEach(card => this.hands.push(card));
     }
 
     get Info() : PlayerInfo{
@@ -20,6 +19,10 @@ export default class Player {
 
     get Hands() : Array<Card>{
         return this.hands;
+    }
+
+    set Hands(value){
+        value.forEach(card => this.hands.push(card));
     }
 
     public play(cards : Array<Card>, board : GameBoard){
@@ -44,6 +47,17 @@ export default class Player {
 
     equals(player : Player) : boolean{
         return this.info.equals(player.Info);
+    }
+
+    static generateId(length = 10) {
+        // function inspired from https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+        let result           = '';
+        let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let charactersLength = characters.length;
+        for ( let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return "P-"+result;
     }
     
 }
