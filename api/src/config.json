@@ -10,9 +10,9 @@
   },
   "developpement":{
     "mongodb":{
-      "user":"GiLUPkP1ARJpQKcL",
-      "passwd":"GiLUPkP1ARJpQKcL",
-      "dbname":"developpement"
+      "user":"rxaHKnr1XW51hm3oCu2ME0v43",
+      "passwd":"VGB8UCeJ6tccs7esFyb1l64Nn",
+      "dbname":"dev"
     },
     "pokemon_api_url":"http://localhost:3000",
     "pokemon_api_version":"v1",

@@ -1,6 +1,5 @@
 import PlayerInfo from "./PlayerInfo";
 import GameFactory from "../service/GameFactory";
-import Player from "./Player";
 import {Server, Socket} from "socket.io";
 import ResponseSocketApi from "./ResponseSocketApi";
 
@@ -18,7 +17,7 @@ export default class WaitingRoom {
     private starting : boolean;
     private factory : GameFactory;
     private serverSocket : Server;
-    private id : string;
+    private readonly id : string;
 
     constructor(factory : GameFactory, serverSocket : Server) {
         this.players = new Array<[PlayerInfo, boolean]>();
@@ -52,7 +51,7 @@ export default class WaitingRoom {
             if (this.players.length>=WaitingRoom.NB_MIN_PLAYER){
 
                 //  On recuperer un joueur non pret
-                let noReady = this.players.find( p => p[1]===false);
+                let noReady = this.players.find( p => !p[1]);
 
                 //  Si il n'y en a aucun
                 if (noReady===undefined){

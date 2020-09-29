@@ -17,7 +17,7 @@ export default class Game {
     private players : Array<Player>;
     private started : boolean;
     private lastTimePlayed : number;
-    private interval : any;
+    private timeout : any;
 
     constructor(id : string, board : GameBoard, players : Array<Player>) {
         this.id = id;
@@ -26,7 +26,7 @@ export default class Game {
         this.turn = 0;
         this.started = false;
         this.lastTimePlayed = 0;
-        this.interval = null;
+        this.timeout = null;
     }
 
     get Info(){
@@ -81,11 +81,11 @@ export default class Game {
         this.lastTimePlayed = Date.now();
 
         //  Si il y a deja un processus d'attente, on le libere
-        if (this.interval){
-            clearInterval(this.interval);
+        if (this.timeout){
+            clearTimeout(this.timeout);
         }
 
-        this.interval = setInterval(() => {
+        this.timeout = setTimeout(() => {
 
             //  On recupere la date actuel
             let now = Date.now();

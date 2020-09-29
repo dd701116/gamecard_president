@@ -1,14 +1,18 @@
 
 export default class Card {
 
-    private symbol : CardSymbol;
-    private value : number;
-    private picture : string;
+    private readonly symbol : CardSymbol;
+    private readonly value : number;
+    private readonly picture : string;
+    private description : string;
+    private readonly id : string;
 
-    constructor(symbol: CardSymbol, value : number, picture: string) {
+    constructor(id : string, symbol: CardSymbol, value : number, picture: string) {
+        this.id = id;
         this.symbol = symbol;
         this.value = value;
         this.picture = picture;
+        this.description = `(${this.id})-{${this.symbol}}[${this.value}]`;
     }
 
     get Symbol() : CardSymbol{
@@ -32,7 +36,7 @@ export default class Card {
     }
 
     clone() : Card{
-        return new Card(this.symbol, this.value, this.picture);
+        return new Card(this.id, this.symbol, this.value, this.picture);
     }
 
 }
@@ -42,5 +46,6 @@ export enum CardSymbol{
     Diamond,
     Club,
     Spade,
+    Joker,
     Empty
 }
