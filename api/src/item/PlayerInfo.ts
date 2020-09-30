@@ -11,14 +11,16 @@ export default class PlayerInfo {
     private banned : boolean;
     private strikes : Array<Strike>;
     private password : string;
+    private picture : string;
 
-    constructor(id : string, name : string, rank : number, password : string, banned : boolean, strikes : Array<Strike>) {
+    constructor(id : string, name : string, rank : number, password : string, banned : boolean, strikes : Array<Strike>, picture : string) {
         this.id = id;
         this.name = name;
         this.rank = rank;
         this.banned = banned;
         this.strikes = strikes;
         this.password = password;
+        this.picture = picture;
     }
 
     get PublicInfo(){

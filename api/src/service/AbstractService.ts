@@ -2,11 +2,9 @@
 
 export default abstract class AbstractService<T>{
 
-    private elements : Array<T>;
     private readonly sources : Array<{ name : string, ressource : object }> | undefined;
 
     constructor(...sources : Array<{ name : string, ressource : object }>) {
-        this.elements = new Array<T>();
         if (sources){
             this.sources = sources;
         }
