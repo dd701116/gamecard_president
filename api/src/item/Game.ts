@@ -7,6 +7,7 @@ import ResponseSocketApi from "./ResponseSocketApi";
 import Card from "./Card";
 import Rules from "./Rules";
 import Strike from "./Strike";
+import Deck from "./Deck";
 
 
 export default class Game {
@@ -18,8 +19,9 @@ export default class Game {
     private started : boolean;
     private lastTimePlayed : number;
     private timeout : any;
+    private deck : Deck;
 
-    constructor(id : string, board : GameBoard, players : Array<Player>) {
+    constructor(id : string, board : GameBoard, players : Array<Player>, deck : Deck) {
         this.id = id;
         this.board = board;
         this.players = players;
@@ -27,6 +29,7 @@ export default class Game {
         this.started = false;
         this.lastTimePlayed = 0;
         this.timeout = null;
+        this.deck = deck;
     }
 
     get Info(){

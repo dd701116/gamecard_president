@@ -57,24 +57,25 @@ export default class WaitingRoom {
                 if (noReady===undefined){
                     //  On lance la game
                     this.starting = true;
-                    let game = this.factory.createGame(this);
 
-                    //  Si le jeu a bien ete cree
-                    if (game){
+                    this.factory.createGame(this)?.then(game => {
 
-                        //  On annonce la creation
-                        this.serverSocket.to(this.id).emit("game-create", new ResponseSocketApi(game.Info, true, `You are join the Game ${game.Id}`));
+                        //  Si le jeu a bien ete cree
+                        if (game){
 
-                    }else{
-                        //  On annonce le faite qu'il n'y ai plus de place
-                        this.serverSocket.to(this.id).emit("game-create", new ResponseSocketApi(new Error("Server Full"), false, "The server is full, no game can launch now."));
-                    }
+                            //  On annonce la creation
+                            this.serverSocket.to(this.id).emit("game-create", new ResponseSocketApi(game.Info, true, `You are join the Game ${game.Id}`));
 
-                    //  On libere le thread d'attente
-                    clearInterval(this.interval);
+                        }else{
+                            //  On annonce le faite qu'il n'y ai plus de place
+                            this.serverSocket.to(this.id).emit("game-create", new ResponseSocketApi(new Error("Server Full"), false, "The server is full, no game can launch now."));
+                        }
+
+                        //  On libere le thread d'attente
+                        clearInterval(this.interval);
+                    });
 
                 }
-
 
             }
 

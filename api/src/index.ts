@@ -16,6 +16,7 @@ import mongodb from 'mongodb';
 //  Services
 import CardService, {PictureType} from "./service/CardService";
 import FirebaseFacade from "./service/FirebaseFacade";
+import Deck from "./item/Deck";
 
 
 const port = 5000;
@@ -82,6 +83,11 @@ let firebase,
         .then((card)=>{
             console.log(card);
         });
+
+    cardService.deck().then((res) => {
+        res.shuffle();
+        console.log(res);
+    },console.log).catch(err => console.log(err.message));
 
 })();
 

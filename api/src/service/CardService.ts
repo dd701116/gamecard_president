@@ -2,6 +2,7 @@ import Card from "../item/Card";
 import AbstractService from "./AbstractService";
 import {Collection} from "mongodb";
 import FirebaseFacade from "./FirebaseFacade";
+import Deck from "../item/Deck";
 
 
 export default class CardService extends AbstractService<Card>{
@@ -13,9 +14,27 @@ export default class CardService extends AbstractService<Card>{
     delete(element: Card): void {
     }
 
+    deck() : Promise<Deck>{
+
+        return new Promise<Deck>((resolve, reject) => {
+            let deck = new Deck();
+
+            //  On recupere la collection mongodb dans les source
+            let source_mongodb = this.Source("mongodb");
+            let collection = source_mongodb?.ressource;
+            //  On recupere le cursor
+            let cursor = (<Collection>collection).find({value:{$gt:0}});
+
+            cursor.toArray().then(documents => {
+                documents.forEach( document => deck.push(new Card(document._id, document.symbol, document.value, document.picture_1x, document.picture_4x)));
+                resolve(deck);
+            }, reject);
+        });
+    }
+
     get(filter: {symbol : string, value : number}): Promise<Card> {
 
-        return new Promise<Card>(((resolve, reject) => {
+        return new Promise<Card>((resolve, reject) => {
             //  On recupere la collection mongodb dans les source
             let source_mongodb = this.Source("mongodb");
             let collection = source_mongodb?.ressource;
@@ -30,7 +49,7 @@ export default class CardService extends AbstractService<Card>{
                 }, (err)=>{
                     reject(err);
                 });
-        }));
+        });
     }
 
     picture(type : PictureType, name : string){

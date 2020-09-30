@@ -3,6 +3,7 @@ import WaitingRoom from "../item/WaitingRoom";
 import GameBoard from "../item/GameBoard";
 import Player from "../item/Player";
 import {Server} from "socket.io";
+import CardService from "./CardService";
 
 
 export default class GameFactory {
@@ -11,10 +12,12 @@ export default class GameFactory {
 
     private games : Array<Game>;
     private waitingRooms : Array<WaitingRoom>;
+    private cardService : CardService;
 
-    constructor() {
+    constructor(cardService : CardService) {
         this.games = new Array<Game>();
         this.waitingRooms = new Array<WaitingRoom>();
+        this.cardService = cardService;
     }
 
     createWaitingRoom(serverSocket : Server) : WaitingRoom | null{
@@ -27,7 +30,7 @@ export default class GameFactory {
         return null;
     }
 
-    createGame(room : WaitingRoom) : Game | null{
+    createGame(room : WaitingRoom) : Promise<Game> | null{
         if (this.games.length<GameFactory.NB_MAX_GAME){
             let playersInfo = room.Players;
             let players = new Array<Player>();
@@ -37,9 +40,16 @@ export default class GameFactory {
             })
 
             let board = new GameBoard();
-            let game = new Game(Game.generateId(), board, players);
-            this.games.push(game);
-            return game;
+
+            return new Promise<Game>(((resolve, reject) => {
+
+                this.cardService.deck().then(deck => {
+                    let game = new Game(Game.generateId(), board, players, deck);
+                    this.games.push(game);
+                    resolve(game);
+                },reject);
+
+            }));
         }
         return null;
     }
