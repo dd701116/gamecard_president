@@ -3,15 +3,17 @@ export default class Card {
 
     private readonly symbol : CardSymbol;
     private readonly value : number;
-    private readonly picture : string;
+    private readonly picture_1x : string;
+    private readonly picture_4x : string;
     private description : string;
     private readonly id : string;
 
-    constructor(id : string, symbol: CardSymbol, value : number, picture: string) {
+    constructor(id : string, symbol: CardSymbol, value : number, picture_1x: string, picture_4x: string) {
         this.id = id;
         this.symbol = symbol;
         this.value = value;
-        this.picture = picture;
+        this.picture_1x = picture_1x;
+        this.picture_4x = picture_4x;
         this.description = `(${this.id})-{${this.symbol}}[${this.value}]`;
     }
 
@@ -23,12 +25,16 @@ export default class Card {
         return this.value;
     }
 
-    get Picture() : string{
-        return this.picture;
+    get Picture1X() : string{
+        return this.picture_1x;
+    }
+
+    get Picture4X() : string{
+        return this.picture_4x;
     }
 
     equals(card : Card) : boolean{
-        return (card.symbol===this.symbol) && (card.value===this.value) && (card.picture===this.picture);
+        return (card.symbol===this.symbol) && (card.value===this.value) && (card.picture_1x===this.picture_1x) && (card.picture_4x===this.picture_4x);
     }
 
     compareTo(card : Card) : number{
@@ -36,7 +42,7 @@ export default class Card {
     }
 
     clone() : Card{
-        return new Card(this.id, this.symbol, this.value, this.picture);
+        return new Card(this.id, this.symbol, this.value, this.picture_1x, this.picture_4x);
     }
 
 }

@@ -8,19 +8,14 @@ import bodyParser from "body-parser";
 import fs from 'fs';
 import path from "path";
 import mongodb from 'mongodb';
-import firebase from "firebase-admin";
 
 /**
  *  IMPORT Internal Dependances
  */
 //  App
-import App from './App';
 //  Services
-import CardService from "./service/CardService";
-import ChatService from "./service/ChatService";
-import PlayerService from "./service/PlayerService";
-import GameFactory from "./service/GameFactory";
-import {log} from "util";
+import CardService, {PictureType} from "./service/CardService";
+import FirebaseFacade from "./service/FirebaseFacade";
 
 
 const port = 5000;
@@ -39,29 +34,9 @@ expressApp.use(function(req, res, next) {
 });
 
 
-var serviceAccount = require("./gamecard-president-dadf3-firebase-adminsdk-njv9d-ac6a0d934b.json");
-
-firebase.initializeApp({
-    credential: firebase.credential.cert(serviceAccount),
-    databaseURL: "https://gamecard-president-dadf3.firebaseio.com"
-});
-
-let bucket = firebase.storage().bucket("gs://gamecard-president-dadf3.appspot.com/");
-//bucket.getFiles().then((res) => console.log(res));
-let file = bucket.file("card/1X/PixelPlebes_1x__Update001_02.png");
-//file.get().then(res => console.log(res));
-//file.getMetadata().then( res => console.log(res));
 
 
-expressApp.get("/", (req, res) =>{
-    file.download().then(content => res.send(content[0]), err => console.log(err));
-
-});
-
-
-let mongoUser,
-    mongoPasswd,
-    mongoDbname,
+let firebase,
     uri,
     mongoClient,
     config;
@@ -73,21 +48,40 @@ let mongoUser,
      */
     let config_str = fs.readFileSync(path.resolve(__dirname,'config.json'));
     config = JSON.parse(config_str.toString())[APP_MODE];
-    mongoUser = config.mongodb.user;
-    mongoPasswd = config.mongodb.passwd;
-    mongoDbname = config.mongodb.dbname;
 
-    uri = `mongodb+srv://${mongoUser}:${mongoPasswd}@cluster0.txfce.mongodb.net`;
+    uri = `${config.mongodb.protocol}://${config.mongodb.user}:${config.mongodb.passwd}@${config.mongodb.hostname}`;
 
     console.log(uri);
 
     mongoClient = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     await mongoClient.connect();
-    let database = mongoClient.db(mongoDbname);
+    let database = mongoClient.db(config.mongodb.dbname);
 
-    let cursor = database.collection("card").find({value:1});
-    cursor.toArray().then(documents => console.log(documents));
+    firebase = new FirebaseFacade(config.firebase.credential, config.firebase.databaseUrl);
+    firebase.init();
+
+    let cardService = new CardService({
+        name:"mongodb", ressource: database.collection("card")
+    }, {
+        name:"firebase", ressource: firebase
+    });
+
+
+    expressApp.get("/", (req, res) =>{
+        let file = cardService.picture(PictureType.X1, "PixelPlebes_1x__Update001_00.png");
+        if (file){
+            file.download().then(content => res.send(content[0]), err => console.log(err));
+        }else{
+            res.send('Error');
+        }
+
+    });
+
+    cardService.get({symbol:"heart", value:1})
+        .then((card)=>{
+            console.log(card);
+        });
 
 })();
 
