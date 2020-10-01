@@ -3,7 +3,7 @@ import Player from "./Player";
 import GameInfo from "./GameInfo";
 import PlayerInfo from "./PlayerInfo";
 import {Server, Socket} from "socket.io";
-import ResponseSocketApi from "./ResponseSocketApi";
+import ResponseSocketApi from "../network/ResponseSocketApi";
 import Card from "./Card";
 import Rules from "./Rules";
 import Strike from "./Strike";

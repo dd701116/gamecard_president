@@ -4,7 +4,6 @@
 import http from 'http';
 import socketio from 'socket.io';
 import express from 'express';
-import bodyParser from "body-parser";
 import fs from 'fs';
 import path from "path";
 import mongodb from 'mongodb';
@@ -16,6 +15,9 @@ import mongodb from 'mongodb';
 //  Services
 import CardService, {PictureType} from "./service/CardService";
 import FirebaseFacade from "./service/FirebaseFacade";
+import PlayerService from "./service/PlayerService";
+import GameFactory from "./service/GameFactory";
+import App from "./App";
 
 
 const port = 5000;
@@ -23,17 +25,7 @@ const expressApp = express();
 const APP_MODE = "developpement";
 
 const httpServer = http.createServer(expressApp);
-const io = socketio(httpServer);
-
-expressApp.use(bodyParser.json());
-expressApp.use(bodyParser.urlencoded({ extended: true }));
-expressApp.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
-
+const socketServer = socketio(httpServer);
 
 
 let firebase,
@@ -49,17 +41,31 @@ let firebase,
     let config_str = fs.readFileSync(path.resolve(__dirname,'config.json'));
     config = JSON.parse(config_str.toString())[APP_MODE];
 
-    uri = `${config.mongodb.protocol}://${config.mongodb.user}:${config.mongodb.passwd}@${config.mongodb.hostname}`;
 
-    console.log(uri);
+    /**
+     *  INIT - DRIVERS
+     */
+
+    //  Mongodb
+
+    uri = `${config.mongodb.protocol}://${config.mongodb.user}:${config.mongodb.passwd}@${config.mongodb.hostname}`;
 
     mongoClient = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     await mongoClient.connect();
     let database = mongoClient.db(config.mongodb.dbname);
 
+    //  Firebase
+
     firebase = new FirebaseFacade(config.firebase.credential, config.firebase.databaseUrl);
     firebase.init();
+
+
+    /**
+     *  INIT - SERVICES
+     */
+
+    //  CardServices
 
     let cardService = new CardService(config,{
         name:"mongodb", ressource: database.collection("card")
@@ -67,26 +73,36 @@ let firebase,
         name:"firebase", ressource: firebase
     });
 
+    //  PlayerService
 
-    expressApp.get("/", (req, res) =>{
-        let file = cardService.picture(PictureType.X1, "PixelPlebes_1x__Update001_00.png");
-        if (file){
-            file.download().then(content => res.send(content[0]), err => console.log(err));
-        }else{
-            res.send('Error');
-        }
-
+    let playerService = new PlayerService(config, {
+        name:"mongodb", ressource: database.collection("player")
+    }, {
+        name:"firebase", ressource: firebase
     });
 
-    cardService.get({symbol:"heart", value:1})
-        .then((card)=>{
-            console.log(card);
-        });
 
-    cardService.deck().then((res) => {
-        res.shuffle();
-        console.log(res);
-    },console.log).catch(err => console.log(err.message));
+    //  GameFactory
+
+    let gameFactory = new GameFactory(cardService);
+
+
+    /**
+     *  INIT - APP
+     */
+
+    let app = new App(config, expressApp, socketServer, {
+        name : "card",
+        resource : cardService
+    },{
+        name : "player",
+        resource : playerService
+    },{
+        name : "game",
+        resource : gameFactory
+    });
+
+    app.init();
 
 })();
 

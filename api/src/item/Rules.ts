@@ -1,6 +1,8 @@
 import Card from "./Card";
 import GameBoard from "./GameBoard";
 import Player from "./Player";
+import PlayerInfo from "./PlayerInfo";
+import Strike from "./Strike";
 
 export default class Rules {
 
@@ -14,7 +16,7 @@ export default class Rules {
     }
 
     static whosNext(turn : number, players : Array<Player>) : Player{
-        return {};
+        return new Player(new PlayerInfo("","",0,"",true,new Array<Strike>(), "", ""));
     }
 
     static isPresident(player : Player, players : Array<Player>) : boolean{

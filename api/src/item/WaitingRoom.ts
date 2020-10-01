@@ -1,7 +1,7 @@
 import PlayerInfo from "./PlayerInfo";
 import GameFactory from "../service/GameFactory";
 import {Server, Socket} from "socket.io";
-import ResponseSocketApi from "./ResponseSocketApi";
+import ResponseSocketApi from "../network/ResponseSocketApi";
 
 
 export default class WaitingRoom {
