@@ -12,8 +12,9 @@ export default class PlayerInfo {
     private strikes : Array<Strike>;
     private password : string;
     private picture : string;
+    private email : string;
 
-    constructor(id : string, name : string, rank : number, password : string, banned : boolean, strikes : Array<Strike>, picture : string) {
+    constructor(id : string, name : string, rank : number, password : string, banned : boolean, strikes : Array<Strike>, picture : string, email : string) {
         this.id = id;
         this.name = name;
         this.rank = rank;
@@ -21,6 +22,7 @@ export default class PlayerInfo {
         this.strikes = strikes;
         this.password = password;
         this.picture = picture;
+        this.email = email;
     }
 
     get PublicInfo(){
@@ -28,8 +30,13 @@ export default class PlayerInfo {
             id:this.id,
             name:this.name,
             rank:this.rank,
-            banned:this.banned
+            banned:this.banned,
+            picture: this.picture
         }
+    }
+
+    get Email(){
+        return this.email;
     }
 
     set Name(value : string){
@@ -42,6 +49,9 @@ export default class PlayerInfo {
 
     set Password(value : string){
         this.password = value;
+    }
+    get Password(){
+        return this.password;
     }
 
     ban(){

@@ -16,7 +16,6 @@ import mongodb from 'mongodb';
 //  Services
 import CardService, {PictureType} from "./service/CardService";
 import FirebaseFacade from "./service/FirebaseFacade";
-import Deck from "./item/Deck";
 
 
 const port = 5000;
@@ -62,7 +61,7 @@ let firebase,
     firebase = new FirebaseFacade(config.firebase.credential, config.firebase.databaseUrl);
     firebase.init();
 
-    let cardService = new CardService({
+    let cardService = new CardService(config,{
         name:"mongodb", ressource: database.collection("card")
     }, {
         name:"firebase", ressource: firebase

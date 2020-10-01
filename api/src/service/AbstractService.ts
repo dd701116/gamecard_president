@@ -3,11 +3,13 @@
 export default abstract class AbstractService<T>{
 
     private readonly sources : Array<{ name : string, ressource : object }> | undefined;
+    private readonly config : any;
 
-    constructor(...sources : Array<{ name : string, ressource : object }>) {
+    constructor(config : any, ...sources : Array<{ name : string, ressource : object }>) {
         if (sources){
             this.sources = sources;
         }
+        this.config = config;
     }
 
     //  CREATE
@@ -24,5 +26,9 @@ export default abstract class AbstractService<T>{
 
     Source(name : string) : { name : string, ressource : object } | undefined{
         return this.sources? this.sources.find(souce => souce.name === name) : undefined;
+    }
+
+    get Config(){
+        return this.config;
     }
 }
