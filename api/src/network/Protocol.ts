@@ -1,5 +1,7 @@
 import {Request, Response} from "express";
 import CardService, {PictureType} from "../service/CardService";
+import PlayerService from "../service/PlayerService";
+import GameFactory from "../service/GameFactory";
 
 
 export class ExpressRoute{
@@ -8,19 +10,19 @@ export class ExpressRoute{
         res.send("<h1>Server is UP !</h1>");
     }
 
-    static signin(req : Request<any>, res : Response<any>) : void{
+    static signin(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
 
     }
 
-    static signup(req : Request<any>, res : Response<any>) : void{
+    static signup(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
 
     }
 
-    static player(req : Request<any>, res : Response<any>) : void{
+    static player(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
 
     }
 
-    static playerPicture(req : Request<any>, res : Response<any>) : void{
+    static playerPicture(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
 
     }
 
@@ -37,27 +39,27 @@ export class ExpressRoute{
 
 export class SocketRoute{
 
-    static joinGame(data : any) : void{
+    static joinGame(service : GameFactory, data : any) : void{
 
     }
 
-    static readyToPlay(data : any) : void{
+    static readyToPlay(service : GameFactory, data : any) : void{
 
     }
 
-    static play(data : any) : void{
+    static play(service : GameFactory, data : any) : void{
 
     }
 
-    static chat(data : any) : void{
+    static chat(service : GameFactory, data : any) : void{
 
     }
 
-    static invitePlayer(data : any) : void{
+    static invitePlayer(service : GameFactory, data : any) : void{
 
     }
 
-    static leave(data : any) : void{
+    static leave(service : GameFactory, data : any) : void{
 
     }
 

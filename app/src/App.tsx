@@ -58,6 +58,7 @@ export default class App extends Component<AppProps, AppState>{
                                         <Link className="nav-link" to="/Play">Play</Link>
                                     </li>
                                     <li className="nav-item">
+
                                         <Link className="nav-link" to="/Profile">Profile</Link>
                                     </li>
                                     <li className="nav-item">

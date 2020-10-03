@@ -20,9 +20,48 @@ export default class App {
 
     initExpress(){
         this.expressApp.get('/', ExpressRoute.test);
-        this.expressApp.get(`/${this.config.api.version}/player/signup`, ExpressRoute.signup());
-        this.expressApp.get('/', ExpressRoute.test);
-        this.expressApp.get('/', ExpressRoute.test);
+
+        this.expressApp.get(`/${this.config.api.version}/player/signup`, ((req, res) => {
+            ExpressRoute.signup(this.Service("player")?.resource, req, res);
+        }));
+
+        this.expressApp.get(`/${this.config.api.version}/player/signin`, ((req, res) => {
+            ExpressRoute.signin(this.Service("player")?.resource, req, res);
+        }));
+
+        this.expressApp.get(`/${this.config.api.version}/player/:id`, ((req, res) => {
+            ExpressRoute.player(this.Service("player")?.resource, req, res);
+        }));
+
+        this.expressApp.get(`/${this.config.api.version}/player/:id/picture`, ((req, res) => {
+            ExpressRoute.player(this.Service("player")?.resource, req, res);
+        }));
+
+        this.expressApp.get(`/${this.config.api.version}/card/:id/picture`, ((req, res) => {
+            ExpressRoute.cardPicture(this.Service("card")?.resource, req, res);
+        }));
+    }
+
+    initSocket(){
+        this.serverSoket.on("connection", (socket => {
+
+            socket.on(`/${this.config.api.version}/game/join`, (data) => {
+                SocketRoute.joinGame(this.Service("game")?.resource, data);
+            });
+
+            socket.on(`/${this.config.api.version}/game/readyToPlay`, (data) =>{
+                SocketRoute.readyToPlay(this.Service("game")?.resource, data);
+            });
+
+            socket.on(`/${this.config.api.version}/game/play`, (data) =>{
+                SocketRoute.play(this.Service("game")?.resource, data);
+            });
+
+            socket.on(`/${this.config.api.version}/game/chat`, (data) =>{
+                SocketRoute.play(this.Service("game")?.resource, data);
+            });
+
+        }))
     }
 
     init() {
@@ -35,5 +74,9 @@ export default class App {
         });
 
         this.initExpress();
+    }
+
+    Service(name : string) : { name: string; resource: any } | undefined{
+        return this.services? this.services.find(service => service.name === name) : undefined;
     }
 }
