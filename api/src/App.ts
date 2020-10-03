@@ -20,6 +20,9 @@ export default class App {
 
     initExpress(){
         this.expressApp.get('/', ExpressRoute.test);
+        this.expressApp.get(`/${this.config.api.version}/player/signup`, ExpressRoute.signup());
+        this.expressApp.get('/', ExpressRoute.test);
+        this.expressApp.get('/', ExpressRoute.test);
     }
 
     init() {
