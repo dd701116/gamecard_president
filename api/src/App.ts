@@ -34,7 +34,7 @@ export default class App {
         }));
 
         this.expressApp.get(`/${this.config.api.version}/player/:id/picture`, ((req, res) => {
-            ExpressRoute.player(this.Service("player")?.resource, req, res);
+            ExpressRoute.playerPicture(this.Service("player")?.resource, req, res);
         }));
 
         this.expressApp.get(`/${this.config.api.version}/card/:id/picture`, ((req, res) => {
@@ -57,8 +57,16 @@ export default class App {
                 SocketRoute.play(this.Service("game")?.resource, data);
             });
 
+            socket.on(`/${this.config.api.version}/game/invite`, (data) =>{
+                SocketRoute.invitePlayer(this.Service("game")?.resource, data);
+            });
+
+            socket.on(`/${this.config.api.version}/game/leave`, (data) =>{
+                SocketRoute.leave(this.Service("game")?.resource, data);
+            });
+
             socket.on(`/${this.config.api.version}/game/chat`, (data) =>{
-                SocketRoute.play(this.Service("game")?.resource, data);
+                SocketRoute.play(this.Service("chat")?.resource, data);
             });
 
         }))
