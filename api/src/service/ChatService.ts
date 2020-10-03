@@ -11,7 +11,9 @@ export default class ChatService extends AbstractService<Chat>{
     }
 
     get(filter: any): Promise<Chat> {
-        return new Promise<Chat>();
+        return new Promise<Chat>((resolve, reject) => {
+
+        });
     }
 
     update(element: Chat): void {

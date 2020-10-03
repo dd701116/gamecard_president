@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import CardService, {PictureType} from "../service/CardService";
 import PlayerService from "../service/PlayerService";
 import GameFactory from "../service/GameFactory";
+import ChatService from "../service/ChatService";
 
 
 export class ExpressRoute{
@@ -11,19 +12,19 @@ export class ExpressRoute{
     }
 
     static signin(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
-
+        console.log("[TODO] : signin");
     }
 
     static signup(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
-
+        console.log("[TODO] : signup");
     }
 
     static player(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
-
+        console.log("[TODO] : player");
     }
 
     static playerPicture(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
-
+        console.log("[TODO] : playerPicture");
     }
 
     static cardPicture(service : CardService, req : Request<any>, res : Response<any>) : void{
@@ -40,27 +41,27 @@ export class ExpressRoute{
 export class SocketRoute{
 
     static joinGame(service : GameFactory, data : any) : void{
-
+        console.log("[TODO] : joinGame");
     }
 
     static readyToPlay(service : GameFactory, data : any) : void{
-
+        console.log("[TODO] : readyToPlay");
     }
 
     static play(service : GameFactory, data : any) : void{
-
+        console.log("[TODO] : play");
     }
 
-    static chat(service : GameFactory, data : any) : void{
-
+    static chat(service : ChatService, data : any) : void{
+        console.log("[TODO] : chat");
     }
 
     static invitePlayer(service : GameFactory, data : any) : void{
-
+        console.log("[TODO] : invitePlayer");
     }
 
     static leave(service : GameFactory, data : any) : void{
-
+        console.log("[TODO] : leave");
     }
 
 }
