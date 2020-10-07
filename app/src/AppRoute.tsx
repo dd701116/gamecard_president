@@ -1,43 +1,59 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import React, {Component, FunctionComponent} from "react";
+import React, {FunctionComponent} from "react";
 import App from "./App";
+import HomeView from "./view/HomeView";
+import GameBoard from "./component/GameBoard";
 
-export default class AppRoute extends Component<any, any>{
+export default class AppRoute{
 
 
     static Index : FunctionComponent = () : any => {
         return (
-            <App/>
+            <section className="dd-content">
+                <div className="dd-content-container">
+                    <HomeView/>
+                </div>
+            </section>
         );
     }
 
     static Play : FunctionComponent = () : any => {
-
-    }
-
-    static Profile : FunctionComponent = (match) : any => {
-
-    }
-
-    static Help : FunctionComponent = () : any => {
-
-    }
-
-    static Credits : FunctionComponent = () : any => {
-
-    }
-
-    render(): React.ReactNode {
         return (
-            <Router>
-                <App/>
-                <Route path="/Play" exact component={AppRoute.Play} />
-                <Route path="/Profile/:id" component={AppRoute.Profile} />
-                <Route path="/Help" exact component={AppRoute.Help} />
-                <Route path="/Credits" exact component={AppRoute.Credits} />
-            </Router>
+            <section className="dd-content">
+                <div className="dd-content-container">
+                    Play
+                </div>
+            </section>
         );
     }
 
+    static Profile : FunctionComponent = (match) : any => {
+        return (
+            <section className="dd-content">
+                <div className="dd-content-container">
+                    Profile
+                </div>
+            </section>
+        );
+    }
 
+    static Help : FunctionComponent = () : any => {
+        return (
+            <section className="dd-content">
+                <div className="dd-content-container">
+                    Help
+                </div>
+            </section>
+        );
+    }
+
+    static Credits : FunctionComponent = () : any => {
+        return (
+            <section className="dd-content">
+                <div className="dd-content-container">
+                    Credits
+                </div>
+            </section>
+        );
+    }
 }

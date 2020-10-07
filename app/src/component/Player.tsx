@@ -1,5 +1,5 @@
 import React from "react";
-import Api from "../Api";
+import ApiFacade from "../api/ApiFacade";
 import Card from "./Card";
 import SocketIOClient from "socket.io-client";
 type Socket = SocketIOClient.Socket;
@@ -18,11 +18,11 @@ export default class Player extends React.Component<PlayerProps, PlayerState>{
             currentTurn:false
         }
 
-        Api.emit(this.props.socket, "player-get-info", {
+        ApiFacade.emit(this.props.socket, "player-get-info", {
             id:this.props.player.id
         });
 
-        Api.on(this.props.socket,`player-info`, (res:any) =>{
+        ApiFacade.on(this.props.socket,`player-info`, (res:any) =>{
             this.setState({name: res.name,cards:res.cards, level:res.level, rank:res.rank, picture:res.picture});
         });
     }

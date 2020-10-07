@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import Api from "../Api";
+import ApiFacade from "../api/ApiFacade";
 import SocketIOClient from "socket.io-client";
 type Socket = SocketIOClient.Socket;
 
@@ -14,7 +14,7 @@ export default class Chat extends Component<ChatProps, ChatState>{
 
         }
 
-        Api.on(this.props.socket, "chat-get-message", (data:{author:string, content:string, timestamp:number})=>{
+        ApiFacade.on(this.props.socket, "chat-get-message", (data:{author:string, content:string, timestamp:number})=>{
             const messages = this.state.messages.slice();
             messages.push({author:data.author, content: data.content, timestamp: data.timestamp});
             this.setState({messages:messages});
@@ -24,7 +24,7 @@ export default class Chat extends Component<ChatProps, ChatState>{
 
     keyPress(event:React.KeyboardEvent){
         if ((event.key === "Enter" || event.keyCode === 13) && this.props.socket) {
-            Api.emit(this.props.socket, "chat-post-message", {
+            ApiFacade.emit(this.props.socket, "chat-post-message", {
                 author:this.props.author,
                 message:this.state.input
             });

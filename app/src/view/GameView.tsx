@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import GameBoard from "../component/GameBoard";
 import SocketIOClient from "socket.io-client";
-import Api from "../Api";
+import ApiFacade from "../api/ApiFacade";
 import io from "socket.io-client";
 import Chat from "../component/Chat";
 import Card from "../component/Card";
@@ -15,7 +15,7 @@ export default class GameView extends Component<GameViewProps, GameViewState>{
     constructor(props : GameViewProps) {
         super(props);
 
-        let socket : Socket = io.connect(`${Api.CONFIG.protocol}://${Api.CONFIG.hostname}${Api.CONFIG.port}`);
+        let socket : Socket = io.connect(`${ApiFacade.CONFIG.protocol}://${ApiFacade.CONFIG.hostname}${ApiFacade.CONFIG.port}`);
 
         this.state = {
             socket: socket,
@@ -23,9 +23,6 @@ export default class GameView extends Component<GameViewProps, GameViewState>{
             cooldown:30
 
         }
-
-
-
     }
     static getOpponents(players : Array<any>, socket : Socket) : any{
         return players.map( (player:any) => new PlayerWidget({player:player, socket:socket}));
