@@ -18,7 +18,6 @@ nav{
 .dd-content{
   margin-top: 45px;
   width: 100%;
-  height: 100%;
   padding: 10px;
 }
 
@@ -132,4 +131,14 @@ nav{
   opacity: 0.9;
 
   background-color: #1d2124;
+}
+
+.dd-alert{
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  text-align: center;
+  width: 450px;
+
+  opacity: 0.8;
 }

@@ -5,7 +5,7 @@ export default class PlayerInfo {
 
     static  STRIKE_NM_MAX : number = 3;
 
-    private readonly id : string;
+    private readonly _id : string |null;
     private name : string;
     private rank : number;
     private banned : boolean;
@@ -13,9 +13,10 @@ export default class PlayerInfo {
     private password : string;
     private picture : string;
     private email : string;
+    private contract: boolean;
 
-    constructor(id : string, name : string, rank : number, password : string, banned : boolean, strikes : Array<Strike>, picture : string, email : string) {
-        this.id = id;
+    constructor(_id : string|null, name : string, rank : number, password : string, banned : boolean, strikes : Array<Strike>, picture : string, email : string, contract:boolean) {
+        this._id = _id;
         this.name = name;
         this.rank = rank;
         this.banned = banned;
@@ -23,15 +24,17 @@ export default class PlayerInfo {
         this.password = password;
         this.picture = picture;
         this.email = email;
+        this.contract = contract;
     }
 
     get PublicInfo(){
         return {
-            id:this.id,
+            id:this._id,
             name:this.name,
             rank:this.rank,
             banned:this.banned,
-            picture: this.picture
+            picture: this.picture,
+            contract: this.contract
         }
     }
 
@@ -77,6 +80,6 @@ export default class PlayerInfo {
     }
 
     equals(info : PlayerInfo) : boolean{
-        return (info.id===this.id) && (info.name===this.name) && (info.rank===this.rank);
+        return (info._id===this._id) && (info.name===this.name) && (info.rank===this.rank);
     }
 }

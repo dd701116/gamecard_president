@@ -7,6 +7,14 @@ type Socket = SocketIOClient.Socket;
 
 export default class ApiFacade {
 
+    /*static CONFIG = {
+        protocol:"https",
+        hostname:"my.animelike.net/project/president/api",
+        port: "",
+        port2number : 443,
+        version:"v1"
+    }*/
+
     static CONFIG = {
         protocol:"http",
         hostname:"localhost",
@@ -84,7 +92,7 @@ export default class ApiFacade {
                     dataRes+=chunk;
                 });
                 res.on('end', () => {
-                    resolve(dataRes);
+                    resolve(JSON.parse(dataRes));
                 });
             });
 

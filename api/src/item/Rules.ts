@@ -16,7 +16,7 @@ export default class Rules {
     }
 
     static whosNext(turn : number, players : Array<Player>) : Player{
-        return new Player(new PlayerInfo("","",0,"",true,new Array<Strike>(), "", ""));
+        return new Player(new PlayerInfo("","",0,"",true,new Array<Strike>(), "", "",false));
     }
 
     static isPresident(player : Player, players : Array<Player>) : boolean{

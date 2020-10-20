@@ -2,6 +2,9 @@ import {Server} from "socket.io";
 import {Express} from "express";
 import {ExpressRoute, SocketRoute} from "./network/Protocol";
 import bodyParser from "body-parser";
+import PlayerInfo from "./item/PlayerInfo";
+import GameInfo from "./item/GameInfo";
+import * as RequestSocketApi from "./network/RequestSocketApi";
 
 export default class App {
 
@@ -21,11 +24,11 @@ export default class App {
     initExpress(){
         this.expressApp.get('/', ExpressRoute.test);
 
-        this.expressApp.get(`/${this.config.api.version}/player/signup`, ((req, res) => {
+        this.expressApp.post(`/${this.config.api.version}/player/signup`, ((req, res) => {
             ExpressRoute.signup(this.Service("player")?.resource, req, res);
         }));
 
-        this.expressApp.get(`/${this.config.api.version}/player/signin`, ((req, res) => {
+        this.expressApp.post(`/${this.config.api.version}/player/signin`, ((req, res) => {
             ExpressRoute.signin(this.Service("player")?.resource, req, res);
         }));
 
@@ -40,32 +43,36 @@ export default class App {
         this.expressApp.get(`/${this.config.api.version}/card/:id/picture`, ((req, res) => {
             ExpressRoute.cardPicture(this.Service("card")?.resource, req, res);
         }));
+
+        this.expressApp.post(`/${this.config.api.version}/player/checkEmail`, ((req, res) => {
+            ExpressRoute.checkEmail(this.Service("player")?.resource, req, res);
+        }));
     }
 
     initSocket(){
         this.serverSoket.on("connection", (socket => {
 
-            socket.on(`/${this.config.api.version}/game/join`, (data) => {
+            socket.on(`/${this.config.api.version}/game/join`, (data : RequestSocketApi.JoinGame) => {
                 SocketRoute.joinGame(this.Service("game")?.resource, data);
             });
 
-            socket.on(`/${this.config.api.version}/game/readyToPlay`, (data) =>{
+            socket.on(`/${this.config.api.version}/game/readyToPlay`, (data : RequestSocketApi.ReadyToPlay) =>{
                 SocketRoute.readyToPlay(this.Service("game")?.resource, data);
             });
 
-            socket.on(`/${this.config.api.version}/game/play`, (data) =>{
+            socket.on(`/${this.config.api.version}/game/play`, (data : RequestSocketApi.Play) =>{
                 SocketRoute.play(this.Service("game")?.resource, data);
             });
 
-            socket.on(`/${this.config.api.version}/game/invite`, (data) =>{
+            socket.on(`/${this.config.api.version}/game/invite`, (data : RequestSocketApi.Invite) =>{
                 SocketRoute.invitePlayer(this.Service("game")?.resource, data);
             });
 
-            socket.on(`/${this.config.api.version}/game/leave`, (data) =>{
+            socket.on(`/${this.config.api.version}/game/leave`, (data : RequestSocketApi.Leave) =>{
                 SocketRoute.leave(this.Service("game")?.resource, data);
             });
 
-            socket.on(`/${this.config.api.version}/game/chat`, (data) =>{
+            socket.on(`/${this.config.api.version}/game/chat`, (data : RequestSocketApi.Chat) =>{
                 SocketRoute.play(this.Service("chat")?.resource, data);
             });
 

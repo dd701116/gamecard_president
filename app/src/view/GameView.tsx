@@ -11,18 +11,17 @@ type Socket = SocketIOClient.Socket;
 
 export default class GameView extends Component<GameViewProps, GameViewState>{
 
+    state = {
+        time:"00:00",
+        cooldown:30
 
+    }
     constructor(props : GameViewProps) {
         super(props);
 
         let socket : Socket = io.connect(`${ApiFacade.CONFIG.protocol}://${ApiFacade.CONFIG.hostname}${ApiFacade.CONFIG.port}`);
 
-        this.state = {
-            socket: socket,
-            time:"00:00",
-            cooldown:30
 
-        }
     }
     static getOpponents(players : Array<any>, socket : Socket) : any{
         return players.map( (player:any) => new PlayerWidget({player:player, socket:socket}));
@@ -38,17 +37,17 @@ export default class GameView extends Component<GameViewProps, GameViewState>{
             <div className="dd-board">
                 <div className="dd-board-top">
                     <ul className="dd-board-opponents">
-                        {GameView.getOpponents(this.props.game.players, this.state.socket)}
+                        {GameView.getOpponents(this.props.game.players, this.props.socket)}
                     </ul>
                     <div className="dd-board-player-widget">
-                        <PlayerWidget player={this.props.player} socket={this.state.socket}/>
+                        <PlayerWidget player={this.props.player} socket={this.props.socket}/>
                     </div>
-                    <GameBoard gameId={this.props.game.id} socket={this.state.socket} />
+                    <GameBoard gameId={this.props.game.id} socket={this.props.socket} />
                 </div>
                 <div className="dd-board-bottom">
-                    <Chat socket={this.state.socket} author={this.props.player.name} />
+                    <Chat socket={this.props.socket} author={this.props.player.name} />
                     <div className="dd-board-player">
-                        <Player player={this.props.player} socket={this.state.socket} />
+                        <Player player={this.props.player} socket={this.props.socket} />
                     </div>
                     <ul className="dd-board-button">
                         <p className="dd-board-cooldown">{this.state.cooldown}s</p>
@@ -62,11 +61,11 @@ export default class GameView extends Component<GameViewProps, GameViewState>{
 
 type GameViewProps = {
     player: any,
-    game: any
+    game: any,
+    socket : Socket //  TODO : choose if its class will create the socket or not
 }
 
 type GameViewState = {
     time:string,
     cooldown:number,
-    socket : Socket
 }

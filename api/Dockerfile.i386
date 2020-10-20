@@ -1,0 +1,30 @@
+FROM i386/ubuntu:18.04
+
+EXPOSE 5000
+
+RUN apt update -y \
+    && apt install dpkg -y
+
+RUN apt install apt-utils -y
+
+RUN apt upgrade -y
+
+RUN apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates \
+    && curl -sL https://deb.nodesource.com/setup_12.x | bash -
+
+RUN apt -y install nodejs npm
+
+RUN apt -y  install gcc g++ make
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && apt update \
+    && apt install yarn
+
+COPY . /api
+
+WORKDIR /api
+
+RUN yarn install
+
+ENTRYPOINT yarn run start

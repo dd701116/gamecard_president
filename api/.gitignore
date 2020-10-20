@@ -25,3 +25,6 @@ yarn-error.log*
 package-lock.json
 src/gamecard-president-dadf3-firebase-adminsdk-njv9d-ac6a0d934b.json
 src/config.json
+
+Dockerfile
+.dockerignore 

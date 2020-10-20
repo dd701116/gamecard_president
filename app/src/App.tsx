@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './style/App.css';
 import {BrowserRouter as Router, Link, Route} from "react-router-dom";
-import Navigation from "./component/Navigation";
+import Navigation from "./view/Navigation";
 import AppRoute from "./AppRoute";
 
 
@@ -40,6 +40,8 @@ export default class App extends Component<AppProps, AppState>{
                     <Route path="/Profile/:id" component={AppRoute.Profile} />
                     <Route path="/Help" exact component={AppRoute.Help} />
                     <Route path="/Credits" exact component={AppRoute.Credits} />
+                    <Route path="/Signin" exact component={AppRoute.Signin} />
+                    <Route path="/Signup" exact component={AppRoute.Signup} />
                 </Router>
 
             </div>

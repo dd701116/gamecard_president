@@ -19,7 +19,7 @@ export class ExpressRoute{
         return ApiFacade.post(ApiFacade.CONFIG.hostname, ApiFacade.CONFIG.port2number, `/${ApiFacade.CONFIG.version}/player/signin`, player);
     }
 
-    static signup(player : PlayerInfo) : Promise<any>{
+    static signup(player : {name:string, email:string, password:string, contract:boolean}) : Promise<any>{
         return ApiFacade.post(ApiFacade.CONFIG.hostname, ApiFacade.CONFIG.port2number, `/${ApiFacade.CONFIG.version}/player/signup`, player);
     }
 
@@ -33,6 +33,10 @@ export class ExpressRoute{
 
     static cardPicture(id : string) : Promise<any>{
         return ApiFacade.get(`${ExpressRoute.url}/${ApiFacade.CONFIG.version}/card/${id}/picture`);
+    }
+
+    static checkEmail(email : string) : Promise<any>{
+        return ApiFacade.post(ApiFacade.CONFIG.hostname, ApiFacade.CONFIG.port2number, `/${ApiFacade.CONFIG.version}/player/checkEmail`, {email});
     }
 
 }
