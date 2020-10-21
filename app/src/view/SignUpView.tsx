@@ -41,8 +41,6 @@ export default class SignUpView extends Component<SignUpViewProps, SignUpViewSta
 
         if (validation){
 
-            console.log("Signup !");
-
             ExpressRoute.signup({
                 name:this.state.username,
                 password:this.state.password,
@@ -69,7 +67,6 @@ export default class SignUpView extends Component<SignUpViewProps, SignUpViewSta
                 });
             },1000);
         }
-        console.log(this.validation);
     }
 
 

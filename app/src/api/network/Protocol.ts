@@ -15,7 +15,7 @@ export class ExpressRoute{
         return ApiFacade.get(`${ExpressRoute.url}/`);
     }
 
-    static signin(player : PlayerInfo) : Promise<any>{
+    static signin(player : {email:string, password:string}) : Promise<any>{
         return ApiFacade.post(ApiFacade.CONFIG.hostname, ApiFacade.CONFIG.port2number, `/${ApiFacade.CONFIG.version}/player/signin`, player);
     }
 
