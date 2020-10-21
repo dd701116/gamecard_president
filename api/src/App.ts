@@ -24,14 +24,6 @@ export default class App {
     initExpress(){
         this.expressApp.get('/', ExpressRoute.test);
 
-        this.expressApp.post(`/${this.config.api.version}/player/signup`, ((req, res) => {
-            ExpressRoute.signup(this.Service("player")?.resource, req, res);
-        }));
-
-        this.expressApp.post(`/${this.config.api.version}/player/signin`, ((req, res) => {
-            ExpressRoute.signin(this.Service("player")?.resource, req, res);
-        }));
-
         this.expressApp.get(`/${this.config.api.version}/player/:id`, ((req, res) => {
             ExpressRoute.player(this.Service("player")?.resource, req, res);
         }));
@@ -44,9 +36,6 @@ export default class App {
             ExpressRoute.cardPicture(this.Service("card")?.resource, req, res);
         }));
 
-        this.expressApp.post(`/${this.config.api.version}/player/checkEmail`, ((req, res) => {
-            ExpressRoute.checkEmail(this.Service("player")?.resource, req, res);
-        }));
     }
 
     initSocket(){
