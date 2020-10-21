@@ -12,7 +12,29 @@ export class ExpressRoute{
     }
 
     static signin(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{
-        console.log("[TODO] : signin");
+
+        const email = req.body.email;
+        const password = req.body.password;
+
+        service?.get({email:email}).then((player)=>{
+
+           service?.verifyPassword(password,player.Password).then((result)=>{
+               res.send({
+                  status:result
+               });
+           },(err)=>{
+               res.send({
+                   status:false,
+                   message:err.message
+               });
+           })
+
+        },(err)=>{
+            res.send({
+                status:false,
+                message:err.message
+            });
+        });
     }
 
     static signup(service : PlayerService | undefined, req : Request<any>, res : Response<any>) : void{

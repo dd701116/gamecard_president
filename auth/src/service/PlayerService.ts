@@ -79,5 +79,19 @@ export default class PlayerService extends AbstractService<PlayerInfo>{
 
         return count===0;
     }
+
+    public async verifyPassword(plaintext:string, hash:string) : Promise<boolean>{
+
+        return new Promise((resolve,reject)=>{
+            // Load hash from your password DB.
+            bcrypt.compare(plaintext, hash, function(err, result) {
+                if (err){
+                    reject(err);
+                }else {
+                    resolve(result);
+                }
+            });
+        });
+    }
     
 }
